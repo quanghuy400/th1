@@ -1,25 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useState } from 'react';
 
 export default function App() {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
 
-  const isValidPhone = phone.length === 10 && /^[0-9]+$/.test(phone);
+ 
+  const isValidPhone = phone.replace(/\s/g, '').length === 10;
 
+
+  const formatPhone = (text) => {
+    const cleaned = text.replace(/\D/g, '').slice(0, 10);
+
+    const match = cleaned.match(/^(\d{0,4})(\d{0,3})(\d{0,3})$/);
+
+    if (!match) return cleaned;
+
+    return [match[1], match[2], match[3]]
+      .filter(Boolean)
+      .join(' ');
+  };
+
+  
   const handleChange = (text) => {
-    setPhone(text);
+    const formatted = formatPhone(text);
+    setPhone(formatted);
 
-    if (text.length === 0) {
+    const raw = formatted.replace(/\s/g, '');
+
+    if (raw.length === 0) {
       setError('');
-    } else if (!/^[0-9]+$/.test(text)) {
-      setError('Số điện thoại chỉ được chứa chữ số');
-    } else if (text.length !== 10) {
+    } else if (raw.length < 10) {
       setError('Số điện thoại phải đủ 10 chữ số');
     } else {
       setError('');
     }
+  };
+
+  
+  const validateOnClick = () => {
+    if (!isValidPhone) {
+      setError('Số điện thoại không đúng định dạng');
+      return;
+    }
+
+    Alert.alert('Thành công', 'Số điện thoại hợp lệ!');
   };
 
   return (
@@ -27,17 +53,17 @@ export default function App() {
       <Text style={styles.title}>Đăng nhập</Text>
 
       <Text style={styles.label}>Nhập số điện thoại</Text>
+
       <Text style={styles.desc}>
-        Dùng số điện thoại để đăng nhập hoặc đăng ký tài khoản tại OneHousing Pro
+        Dùng số điện thoại để đăng nhập hoặc đăng ký tài khoản tại Housing
       </Text>
 
       <TextInput
         style={styles.input}
         placeholder="Nhập số điện thoại của bạn"
-        keyboardType="phone-pad"
+        keyboardType="number-pad"
         value={phone}
         onChangeText={handleChange}
-        maxLength={10}
       />
 
       {error !== '' && <Text style={styles.error}>{error}</Text>}
@@ -47,6 +73,7 @@ export default function App() {
           styles.button,
           isValidPhone && styles.buttonActive
         ]}
+        onPress={validateOnClick}
         disabled={!isValidPhone}
       >
         <Text
@@ -71,27 +98,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 22,
-    fontWeight: '600',
+    fontSize: 24,
+    fontWeight: '700',
     textAlign: 'center',
-    marginTop: 40,
+    marginTop: 60,
     marginBottom: 40,
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     marginBottom: 6,
   },
   desc: {
     fontSize: 14,
     color: '#666',
-    marginBottom: 16,
+    marginBottom: 20,
+    lineHeight: 20,
   },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    paddingVertical: 8,
-    fontSize: 16,
+    paddingVertical: 10,
+    fontSize: 18,
+    letterSpacing: 1,
     marginBottom: 8,
   },
   error: {
