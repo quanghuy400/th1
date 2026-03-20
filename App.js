@@ -86,7 +86,13 @@ function MainTabs() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Bell" component={DummyScreen} />
-      <Tab.Screen name="Scan" component={ScanScreen} />
+      <Tab.Screen
+  name="Scan"
+  component={ScanScreen}
+  options={{
+    tabBarStyle: { display: "none" },
+  }}
+/>
       <Tab.Screen name="History" component={DummyScreen} />
       <Tab.Screen name="Cart" component={CartScreen} />
     </Tab.Navigator>

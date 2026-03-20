@@ -8,33 +8,85 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function CartScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        
+
+        {/* Back Button */}
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color="#E98A57" />
+        </TouchableOpacity>
+
         <Text style={styles.title}>Your Cart 👍🏻</Text>
 
-        {/* Item */}
-        {[
-          { name: "Orange Juice", price: 149 },
-          { name: "Skimmed Milk", price: 129 },
-          { name: "Aloe Vera Lotion", price: 1249 },
-        ].map((item, index) => (
-          <View key={index} style={styles.item}>
-            <View>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.price}>₹ {item.price}</Text>
-            </View>
-
-            <View style={styles.qtyBox}>
-              <Text style={styles.qtyBtn}>-</Text>
-              <Text style={styles.qty}>2</Text>
-              <Text style={styles.qtyBtn}>+</Text>
-            </View>
+        {/* ================= ITEM 1 ================= */}
+        <View style={styles.item}>
+          <View style={styles.imageBox}>
+            <Image
+              source={require("./assets/Bottle.jpg")} // 👈 đổi tên ảnh 1 ở đây
+              style={styles.image}
+            />
           </View>
-        ))}
+
+          <View style={{ flex: 1 }}>
+            <Text style={styles.itemName}>Orange Juice</Text>
+            <Text style={styles.price}>₹ 149</Text>
+          </View>
+
+          <View style={styles.qtyBox}>
+            <Text style={styles.qtyBtn}>-</Text>
+            <Text style={styles.qty}>2</Text>
+            <Text style={styles.qtyBtn}>+</Text>
+          </View>
+        </View>
+
+        {/* ================= ITEM 2 ================= */}
+        <View style={styles.item}>
+          <View style={styles.imageBox}>
+            <Image
+              source={require("./assets/Rectangle 31.png")} // 👈 đổi tên ảnh 2 ở đây
+              style={styles.image}
+            />
+          </View>
+
+          <View style={{ flex: 1 }}>
+            <Text style={styles.itemName}>Skimmed Milk</Text>
+            <Text style={styles.price}>₹ 129</Text>
+          </View>
+
+          <View style={styles.qtyBox}>
+            <Text style={styles.qtyBtn}>-</Text>
+            <Text style={styles.qty}>2</Text>
+            <Text style={styles.qtyBtn}>+</Text>
+          </View>
+        </View>
+
+        {/* ================= ITEM 3 ================= */}
+        <View style={styles.item}>
+          <View style={styles.imageBox}>
+            <Image
+              source={require("./assets/Rectangle 45.png")} // 👈 đổi tên ảnh 3 ở đây
+              style={styles.image}
+            />
+          </View>
+
+          <View style={{ flex: 1 }}>
+            <Text style={styles.itemName}>Aloe Vera Lotion</Text>
+            <Text style={styles.price}>₹ 1,249</Text>
+          </View>
+
+          <View style={styles.qtyBox}>
+            <Text style={styles.qtyBtn}>-</Text>
+            <Text style={styles.qty}>2</Text>
+            <Text style={styles.qtyBtn}>+</Text>
+          </View>
+        </View>
 
         {/* Total */}
         <View style={styles.totalRow}>
@@ -55,22 +107,55 @@ export default function CartScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#fff" },
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#fff",
+  },
 
-  title: { fontSize: 24, fontWeight: "700", marginBottom: 20 },
+  backBtn: {
+    marginBottom: 10,
+  },
+
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: 20,
+  },
 
   item: {
     backgroundColor: "#F3F3F3",
     padding: 15,
     borderRadius: 15,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 15,
   },
 
-  itemName: { fontWeight: "600" },
-  price: { color: "#ff6b35", marginTop: 4 },
+  imageBox: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#ddd",
+    borderRadius: 12,
+    marginRight: 15,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  image: {
+    width: 50,
+    height: 50,
+    resizeMode: "contain",
+  },
+
+  itemName: {
+    fontWeight: "600",
+  },
+
+  price: {
+    color: "#ff6b35",
+    marginTop: 4,
+  },
 
   qtyBox: {
     flexDirection: "row",
@@ -81,8 +166,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-  qtyBtn: { fontSize: 18, paddingHorizontal: 10 },
-  qty: { fontWeight: "600" },
+  qtyBtn: {
+    fontSize: 18,
+    paddingHorizontal: 10,
+  },
+
+  qty: {
+    fontWeight: "600",
+  },
 
   totalRow: {
     flexDirection: "row",
@@ -90,8 +181,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  totalText: { fontSize: 16, fontWeight: "600" },
-  totalPrice: { fontSize: 18, fontWeight: "700", color: "#ff6b35" },
+  totalText: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+  totalPrice: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#ff6b35",
+  },
 
   checkoutBtn: {
     marginTop: 25,
@@ -101,5 +200,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  checkoutText: { color: "#fff", fontWeight: "600" },
+  checkoutText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
 });
